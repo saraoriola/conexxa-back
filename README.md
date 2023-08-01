@@ -46,6 +46,50 @@
 
 <p>With these migrations and models, we have created the necessary tables and relationships to implement the backend functionality for Connexa. Now the database is ready to be used by the REST API. Let's keep moving forward! 🚀</p>
 
+<h2>Seeders for Initial Data</h2>
+
+<p>In order to populate our database with initial data for testing and development purposes, we have created seeders using Sequelize.</p>
+
+<h3>Users Seeder</h3>
+
+<p>To create seed data for the <code>Users</code> table, we used the following command:</p>
+
+<pre><code>npx sequelize seed:generate --name seed-users</code></pre>
+
+<p>In the generated <code>seed-users.js</code> file, we inserted sample data for users:</p>
+
+<pre><code>
+'use strict';
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkInsert('Users', [
+      {
+        name: 'John Doe',
+        email: 'john@example.com',
+        password: 'hashed_password_here',
+        role: 'user',
+        company: 'Example Inc',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      // Add more user data here
+    ], {});
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkDelete('Users', null, {});
+  }
+};
+</code></pre>
+
+<!-- Repeat the same structure for Orders Seeder, Courses Seeder, and Reviews Seeder -->
+
+<p>To seed the database with the initial data, run the following command:</p>
+
+<pre><code>npx sequelize db:seed:all</code></pre>
+
+
 <h2>Installation and Setup</h2>
 <ol>
   <li>Clone the repository.</li>
