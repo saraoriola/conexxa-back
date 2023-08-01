@@ -1,15 +1,11 @@
+'use strict';
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Course extends Model {
     static associate(models) {
-      // Relación One-to-Many con el modelo Order (Un curso puede tener muchos pedidos)
       Course.hasMany(models.Order, { foreignKey: 'courseId' });
-
-      // Relación One-to-Many con el modelo Review (Un curso puede tener muchas reviews)
       Course.hasMany(models.Review, { foreignKey: 'courseId' });
-
-      // Relación One-to-One con el modelo User (Un curso pertenece a un usuario)
       Course.belongsTo(models.User, { foreignKey: 'userId' });
     }
   }
@@ -20,9 +16,11 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     company: DataTypes.STRING,
     category: DataTypes.STRING
-  }, {
+  }, 
+  {
     sequelize,
     modelName: 'Course',
   });
+  
   return Course;
 };
