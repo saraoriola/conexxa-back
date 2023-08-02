@@ -5,9 +5,8 @@ module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
     static associate(models) {
       Order.belongsTo(models.User, { foreignKey: 'userId' });
+      Order.belongsTo(models.Course, { foreignKey: 'courseId' });
 
-      // DUDA A SOFI
-      Order.hasMany(models.Course, { foreignKey: 'courseId' });
     }
   }
   Order.init({

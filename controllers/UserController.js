@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt'); 
-const { User, Token} = require('../models/index.js');
+const { User, Token, Order, Course} = require('../models/index.js');
 const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development']
 
@@ -54,6 +54,48 @@ const UserController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({ message: 'Error logging in' });
+    }
+  },
+
+  async getUserProfile(req, res) {
+    const userId = req.user.id;
+
+    try {
+      const user = await User.findByPk(userId, {
+        attributes: ['name', 'lastName', 'email', 'role'],
+      });
+
+      res.json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error getting user profile' });
+    }
+  },
+
+  async getUserWithOrdersAndCourses (req, res) {
+    const userId = req.user.id;
+  
+    try {
+      const user = await User.findByPk(userId, {
+        attributes: ['name', 'lastName', 'email', 'role'],
+        include: [
+          {
+            model: Order,
+            attributes: ['id', 'price'],
+            include: [
+              {
+                model: Course,
+                attributes: ['id', 'name', 'price'],
+              },
+            ],
+          },
+        ],
+      });
+  
+      res.json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error getting user profile' });
     }
   },
   
