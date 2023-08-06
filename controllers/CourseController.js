@@ -45,7 +45,22 @@ const CourseController = {
           res.status(500).json({ message: 'Error updating the course' });
         }
       },
-
+      
+      async getCourseById(req, res) {
+        const courseId = req.params.id;
+    
+        try {
+          const course = await Course.findByPk(courseId);
+          if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+          }
+    
+          res.json(course);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Error getting the course' });
+        }
+      },
 
 
 }
