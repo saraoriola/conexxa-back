@@ -7,6 +7,6 @@ const router = express.Router();
 router.post('/register', UserController.registerUser);
 router.post('/login', UserController.loginUser)
 router.get('/profile', UserController.getUserWithOrdersAndCourses);
-
+router.put('/update/:id', UserController.updateUser)
 
 module.exports = router;

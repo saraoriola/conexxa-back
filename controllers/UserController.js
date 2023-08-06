@@ -99,6 +99,33 @@ const UserController = {
     }
   },
   
+  async updateUser(req, res) {
+    const userId = req.params.id;
+    const { name, lastName, email, password, role, company } = req.body;
+
+    try {
+      const user = await User.findByPk(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      user.name = name;
+      user.lastName = lastName;
+      user.email = email;
+      user.password = hashedPassword;
+      user.role = role;
+      user.company = company;
+
+      await user.save();
+
+      res.json({ message: 'User updated successfully', user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error updating the user' });
+    }
+  },
 
 };
 
