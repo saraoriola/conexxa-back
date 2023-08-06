@@ -1,4 +1,5 @@
 const { Course } = require('../models/index.js');
+const { Op } = require('sequelize');
 
 const CourseController = {
     async createCourse(req, res) {
@@ -74,6 +75,38 @@ const CourseController = {
         } catch (error) {
           console.error(error);
           res.status(500).json({ message: 'Error searching courses' });
+        }
+      },
+
+    async searchCourseByPrice(req, res) {
+        const { minPrice, maxPrice } = req.query;
+    
+        try {
+          const courses = await Course.findAll({
+            where: {
+              price: {
+                [Op.between]: [minPrice, maxPrice],
+              },
+            },
+          });
+    
+          res.json(courses);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Error searching courses' });
+        }
+      },
+
+    async sortCoursesByPrice(req, res) {
+        try {
+          const courses = await Course.findAll({
+            order: [['price', 'DESC']],
+          });
+    
+          res.json(courses);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Error sorting courses' });
         }
       },
     
