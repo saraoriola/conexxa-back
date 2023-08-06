@@ -21,7 +21,7 @@ const CourseController = {
         }
       },
 
-      async updateCourse(req, res) {
+    async updateCourse(req, res) {
         const courseId = req.params.id;
         const { name, description, price, company, category } = req.body;
     
@@ -46,7 +46,7 @@ const CourseController = {
         }
       },
       
-      async getCourseById(req, res) {
+    async getCourseById(req, res) {
         const courseId = req.params.id;
     
         try {
@@ -62,7 +62,21 @@ const CourseController = {
         }
       },
 
-
+    async searchCourseByName(req, res) {
+        const { name } = req.query;
+    
+        try {
+          const courses = await Course.findAll({
+            where: { name },
+          });
+    
+          res.json(courses);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Error searching courses' });
+        }
+      },
+    
 }
 
 module.exports = CourseController;
