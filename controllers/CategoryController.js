@@ -32,6 +32,22 @@ const CategoryController = {
       res.status(500).json({ message: 'Error updating the category' });
     }
   },
+
+  async getCategoryById(req, res) {
+    try {
+      const categoryId = req.params.id;
+      const category = await Category.findByPk(categoryId);
+      if (!category) {
+        return res.status(404).json({ message: 'Category not found' });
+      }
+
+      res.json(category);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error getting the category' });
+    }
+  },
+  
 };
 
 module.exports = CategoryController;
