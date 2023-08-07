@@ -1,4 +1,5 @@
 const { Category } = require('../models');
+const { Op } = require('sequelize');
 
 const CategoryController = {
   async createCategory(req, res) {
@@ -45,6 +46,20 @@ const CategoryController = {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error getting the category' });
+    }
+  },
+
+  async searchCategoryByName(req, res) {
+    try {
+      const { name } = req.query;
+      const categories = await Category.findAll({
+        where: { name: { [Op.like]: `%${name}%` } },
+      });
+
+      res.json(categories);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error searching categories' });
     }
   },
   
