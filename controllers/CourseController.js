@@ -109,6 +109,24 @@ const CourseController = {
           res.status(500).json({ message: 'Error sorting courses' });
         }
       },
+
+    async getAllCoursesWithCategory(req, res) {
+        try {
+          const courses = await Course.findAll({
+            include: [
+              {
+                model: Category,
+                attributes: ['id', 'name'],
+              },
+            ],
+          });
+    
+          res.json(courses);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Error getting courses with categories' });
+        }
+      },
     
 }
 
