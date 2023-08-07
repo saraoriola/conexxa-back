@@ -1,4 +1,4 @@
-const { Category } = require('../models');
+const { Category, Course } = require('../models');
 const { Op } = require('sequelize');
 
 const CategoryController = {
@@ -62,6 +62,22 @@ const CategoryController = {
       res.status(500).json({ message: 'Error searching categories' });
     }
   },
+
+  async getAllCategoriesWithCourses (req, res) {
+    try {
+      const categories = await Category.findAll({
+        attributes: ['id', 'name', 'description'],
+        include: [{ model: Course, attributes: ['id', 'name', 'price'] }],
+      });
+  
+      res.json(categories);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error getting categories with courses' });
+    }
+  },
+  
+
   
 };
 

@@ -24,7 +24,7 @@ module.exports = {
       company: {
         type: Sequelize.STRING
       },
-      category: {
+      categoryId: {
         type: Sequelize.STRING
       },
       createdAt: {
