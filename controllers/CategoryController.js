@@ -63,21 +63,38 @@ const CategoryController = {
     }
   },
 
-  async getAllCategoriesWithCourses (req, res) {
-    try {
-      const categories = await Category.findAll({
-        attributes: ['id', 'name', 'description'],
-        include: [{ model: Course, attributes: ['id', 'name', 'price'] }],
-      });
+// SALTA ERROR 500 TODO EL RATO - OJO COMENTAMOS TB RUTAS
+//   async getAllCategoriesWithCourses (req, res) {
+//     try {
+//       const categories = await Category.findAll({
+//         attributes: ['id', 'name', 'description'],
+//         include: [{ model: Course, attributes: ['id', 'name', 'price'] }],
+//       });
   
-      res.json(categories);
+//       res.json(categories);
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: 'Error getting categories with courses' });
+//     }
+//   },
+  
+async deleteCategory(req, res) {
+    try {
+      const categoryId = req.params.id;
+
+      const category = await Category.findByPk(categoryId);
+      if (!category) {
+        return res.status(404).json({ message: 'Category not found' });
+      }
+
+      await category.destroy();
+
+      res.json({ message: 'Category deleted successfully' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error getting categories with courses' });
+      res.status(500).json({ message: 'Error deleting the category' });
     }
   },
-  
-
   
 };
 
