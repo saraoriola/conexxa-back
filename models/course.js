@@ -6,11 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Course.hasMany(models.Review, { foreignKey: 'courseId', as: 'reviews' });
       Course.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
-      Course.belongsToMany(models.Order, {
-        through: models.CourseOrder,
-        foreignKey: 'courseId',
-        as: 'orders'
-      });
+      Course.belongsToMany(models.Order, { through: models.CourseOrder, foreignKey: 'courseId', as: 'orders' });
+      Course.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category' });
     }
   }
 
@@ -18,8 +15,9 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
     price: DataTypes.DECIMAL(10, 2),
+    userId: DataTypes.INTEGER,
     company: DataTypes.STRING,
-    category: DataTypes.STRING
+    categoryId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Course',
