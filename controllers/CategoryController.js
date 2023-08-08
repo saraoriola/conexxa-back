@@ -4,6 +4,11 @@ const { Op } = require('sequelize');
 const CategoryController = {
   async createCategory(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
       const { name, description } = req.body;
       const category = await Category.create({ name, description });
       res.status(201).json({ message: 'Category created successfully', category });
@@ -15,6 +20,11 @@ const CategoryController = {
 
   async updateCategory(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
       const categoryId = req.params.id;
       const { name, description } = req.body;
 
