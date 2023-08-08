@@ -1,4 +1,5 @@
-const { Category, Course } = require('../models');
+const { validationResult } = require('express-validator');
+const { Category } = require('../models');
 const { Op } = require('sequelize');
 
 const CategoryController = {
@@ -73,22 +74,7 @@ const CategoryController = {
     }
   },
 
-// SALTA ERROR 500 TODO EL RATO - OJO COMENTAMOS TB RUTAS
-//   async getAllCategoriesWithCourses (req, res) {
-//     try {
-//       const categories = await Category.findAll({
-//         attributes: ['id', 'name', 'description'],
-//         include: [{ model: Course, attributes: ['id', 'name', 'price'] }],
-//       });
-  
-//       res.json(categories);
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).json({ message: 'Error getting categories with courses' });
-//     }
-//   },
-  
-async deleteCategory(req, res) {
+  async deleteCategory(req, res) {
     try {
       const categoryId = req.params.id;
 
@@ -105,7 +91,6 @@ async deleteCategory(req, res) {
       res.status(500).json({ message: 'Error deleting the category' });
     }
   },
-  
 };
 
 module.exports = CategoryController;
