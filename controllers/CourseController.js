@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 
 const CourseController = {
     async createCourse(req, res) {
-        const { name, description, price, userId, company, category } = req.body;
+        const { name, description, price, userId, company, categoryId } = req.body;
     
         try {
           const course = await Course.create({
@@ -12,7 +12,7 @@ const CourseController = {
             price,
             userId,
             company,
-            category
+            categoryId
           });
     
           res.status(201).json({ message: 'Course created successfully', course });
@@ -24,7 +24,7 @@ const CourseController = {
 
     async updateCourse(req, res) {
         const courseId = req.params.id;
-        const { name, description, price, company, category } = req.body;
+        const { name, description, price, company } = req.body;
     
         try {
           const course = await Course.findByPk(courseId);
@@ -36,7 +36,6 @@ const CourseController = {
           course.description = description;
           course.price = price;
           course.company = company;
-          course.category = category;
     
           await course.save();
     
