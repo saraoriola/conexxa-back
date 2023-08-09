@@ -1,104 +1,46 @@
-<h1 align="center">Connexa Backend</h1>
+<h1>Course Management Project - README</h1>
 
-<h2>Description</h2>
-<p>This repository contains the backend code for Connexa, a platform for online learning and networking exclusively for companies. The backend is developed using Node.js, Express, and MySQL with Sequelize. 🚀</p>
+<h2>Installation</h2>
+<p>To install dependencies, run the following command in the terminal:</p>
+<pre><code>npm install</code></pre>
 
-<h2>Database Tables</h2>
+<h2>Configuration</h2>
+<p>Before running the project, make sure to configure the database connection in <code>config/config.json</code>.</p>
+
+<h2>Multer - File Upload</h2>
+<p>Multer is used to handle file uploads, such as user profile images or attachments in courses.</p>
+<p>The Multer middleware can be found in <code>middleware/multer.js</code>, and it's configured to save files in the <code>uploads/</code> folder.</p>
+
+<h2>CORS - Cross-Origin Resource Sharing</h2>
+<p>CORS is implemented to allow requests from different domains.</p>
+
+<h2>Endpoints</h2>
+<p>The following endpoints are available:</p>
 <ul>
-  <li>Users</li>
-  <li>Orders</li>
-  <li>Courses</li>
-  <li>Reviews</li>
+A RELLENAR
 </ul>
 
-<h2>Relationships</h2>
+<h2>Models and Migrations</h2>
+<p>Models and migrations are located in the <code>models/</code> and <code>migrations/</code> folders respectively.</p>
+<p>To create a migration, run:</p>
+<pre><code>npx sequelize-cli migration:generate --name MigrationName</code></pre>
+<p>To run migrations:</p>
+<pre><code>npx sequelize-cli db:migrate</code></pre>
+
+<h2>Seeders</h2>
+<p>Seeders are scripts that insert initial data into the database. Run the following commands to execute seeders:</p>
+<pre><code>npx sequelize-cli db:seed:all</code></pre>
+<p>Available seeders:</p>
 <ul>
-  <li>One Order belongs to One User (userId references Users Table) 🧑‍💼</li>
-  <li>One Order belongs to One Course (courseId references Courses Table) 📝</li>
-  <li>One Course belongs to One User (userId references Users Table) 📚</li>
-  <li>One Course can have Many Orders (id references courseId in Orders Table) ✨</li>
-  <li>One Course can have Many Reviews (id references courseId in Reviews Table) ✨</li>
-  <li>One Review belongs to One User (userId references Users Table) 📝</li>
-  <li>One Review belongs to One Course (courseId references Courses Table) 📚</li>
+  <li><code>20230808085603-demo-users.js</code>: Creates example users.</li>
+  <li><code>20230808085638-demo-courses.js</code>: Creates example courses.</li>
+  <li><code>20230808085646-demo-categories.js</code>: Creates example categories.</li>
+
 </ul>
 
-<p>In this database design, we have established the following relationships:</p>
-<ul>
-  <li>Users can have multiple Courses and can also leave multiple Reviews for Courses they have taken.</li>
-  <li>Courses can have multiple Orders from different Users, as well as multiple Reviews.</li>
-  <li>Orders are linked to both Users and Courses, indicating which User has purchased which Course.</li>
-</ul>
+<h2>Contribute</h2>
+<p>All contributions are welcome! If you'd like to contribute to the project, please follow the contribution guidelines in <code>CONTRIBUTING.md</code>.</p>
 
-<h2>Model and Migration Creation 🛠️</h2>
-<p>To implement this database design, we have created the necessary models and migrations using Sequelize.</p>
+<h2>License</h2>
+<p>This project is under the MIT License. Refer to the <code>LICENSE</code> file for more details.</p>
 
-<h3>Model and Migration for the Users table 🧑‍💼</h3>
-<pre><code>sequelize model:generate --name User --attributes name:string,email:string,password:string,role:string,company:string</code></pre>
-
-<h3>Model and Migration for the Orders table 📝</h3>
-<pre><code>sequelize model:generate --name Order --attributes userId:integer,courseId:integer,price:decimal</code></pre>
-
-<h3>Model and Migration for the Courses table 📚</h3>
-<pre><code>sequelize model:generate --name Course --attributes name:string,description:text,price:decimal,userId:integer,company:string,category:string</code></pre>
-
-<h3>Model and Migration for the Reviews table ✨</h3>
-<pre><code>sequelize model:generate --name Review --attributes userId:integer,courseId:integer,comment:text,score:integer</code></pre>
-
-<p>With these migrations and models, we have created the necessary tables and relationships to implement the backend functionality for Connexa. Now the database is ready to be used by the REST API. Let's keep moving forward! 🚀</p>
-
-<h2>Seeders for Initial Data</h2>
-
-<p>In order to populate our database with initial data for testing and development purposes, we have created seeders using Sequelize.</p>
-
-<h3>Users Seeder</h3>
-
-<p>To create seed data for the <code>Users</code> table, we used the following command:</p>
-
-<pre><code>npx sequelize seed:generate --name seed-users</code></pre>
-
-<p>In the generated <code>seed-users.js</code> file, we inserted sample data for users:</p>
-
-<pre><code>
-'use strict';
-
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('Users', [
-      {
-        name: 'John Doe',
-        email: 'john@example.com',
-        password: 'hashed_password_here',
-        role: 'user',
-        company: 'Example Inc',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      // Add more user data here
-    ], {});
-  },
-
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Users', null, {});
-  }
-};
-</code></pre>
-
-<!-- Repeat the same structure for Orders Seeder, Courses Seeder, and Reviews Seeder -->
-
-<p>To seed the database with the initial data, run the following command:</p>
-
-<pre><code>npx sequelize db:seed:all</code></pre>
-
-
-<h2>Installation and Setup</h2>
-<ol>
-  <li>Clone the repository.</li>
-  <li>Install Node.js and MySQL if not already installed.</li>
-  <li>Install project dependencies using <code>npm install</code>.</li>
-  <li>Set up your MySQL database and update the database configuration in <code>config/config.js</code>.</li>
-  <li>Run database migrations using <code>npx sequelize db:migrate</code>.</li>
-  <li>Seed the database with initial data using <code>npx sequelize db:seed:all</code>.</li>
-  <li>Start the server using <code>npm start</code>.</li>
-</ol>
-
-<p>Feel free to customize this README according to your project's specific details and requirements. If you have any more questions or need further assistance, don't hesitate to ask! Happy coding! 😊</p>
