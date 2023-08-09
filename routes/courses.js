@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const CourseController = require('../controllers/CourseController');
+const { authentication, isHR } = require('../middleware/authentication');
 
 router.post('/create', CourseController.createCourse);
 router.put('/update/:id', CourseController.updateCourse);
