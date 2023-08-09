@@ -17,8 +17,9 @@
 <h2>Endpoints</h2>
 <p>The following endpoints are available:</p>
 <ul>
-A RELLENAR
+  <li><a href="https://documenter.getpostman.com/view/28893024/2s9Xy2QCRE">USERS</a></li>
 </ul>
+
 
 <h2>Models and Migrations</h2>
 <p>Models and migrations are located in the <code>models/</code> and <code>migrations/</code> folders respectively.</p>
