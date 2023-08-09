@@ -1,6 +1,20 @@
+const multer = require('multer');
+const path = require('path');
 const { Course, Category } = require('../models/index.js');
 const { Op } = require('sequelize');
 const { validationResult } = require('express-validator');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); 
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
 
 const CourseController = {
   async createCourse(req, res) {
@@ -12,16 +26,23 @@ const CourseController = {
     const { name, description, price, userId, company, categoryId } = req.body;
 
     try {
-      const course = await Course.create({
-        name,
-        description,
-        price,
-        userId,
-        company,
-        categoryId,
-      });
+      upload.single('temario')(req, res, async function (err) {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Error uploading file' });
+        }
 
-      res.status(201).json({ message: 'Course created successfully', course });
+        const course = await Course.create({
+          name,
+          description,
+          price,
+          userId,
+          company,
+          categoryId,
+        });
+
+        res.status(201).json({ message: 'Course created successfully', course });
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error creating the course' });
