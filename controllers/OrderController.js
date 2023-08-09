@@ -35,6 +35,28 @@ const OrderController = {
       res.status(500).json({ message: 'Error creating the order' });
     }
   },
+
+  
+  async getUserOrders(req, res) {
+    try {
+      const userId = req.user.id;
+
+      const orders = await Order.findAll({
+        where: { userId },
+        include: [
+          {
+            model: Course,
+            attributes: ['id', 'name', 'price'],
+          },
+        ],
+      });
+
+      res.status(200).json({ message: 'User orders retrieved successfully', orders });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error getting user orders' });
+    }
+  },
 };
 
 module.exports = OrderController;
