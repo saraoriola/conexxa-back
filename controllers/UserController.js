@@ -53,7 +53,7 @@ const UserController = {
       }
 
       const token = jwt.sign({ id: user.id }, jwt_secret);
-      Token.create({ UserId: user.id, token });
+      Token.create({ userId: user.id, token });
 
       res.json({ message: 'Login successful', user, token });
     } catch (error) {
@@ -141,7 +141,7 @@ const UserController = {
     const userId = req.user.id;
 
     try {
-      await Token.destroy({ where: { UserId: userId } });
+      await Token.destroy({ where: { userId: userId } });
       res.json({ message: 'Logout successful' });
     } catch (error) {
       console.error(error);
