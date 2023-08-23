@@ -141,7 +141,7 @@ const CourseController = {
     }
   },
 
-  async getAllCoursesWithCategory(req, res) {
+  async getCourses(req, res) {
     try {
       const courses = await Course.findAll({
         include: [

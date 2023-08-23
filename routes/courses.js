@@ -10,6 +10,6 @@ router.get('/courseId/:id', CourseController.getCourseById);
 router.get('/courseName/search', CourseController.searchCourseByName);
 router.get('/coursePrice/filter', CourseController.searchCourseByPrice);
 router.get('/coursePrice/sort', CourseController.sortCoursesByPrice);
-router.get('/coursesWithCategory', CourseController.getAllCoursesWithCategory);
+router.get('/getCourses', CourseController.getCourses);
 
 module.exports = router;
