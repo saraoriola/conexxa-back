@@ -16,10 +16,6 @@ const OrderController = {
         where: { id: courseIds },
       });
 
-      if (courses.length !== courseIds.length) {
-        return res.status(400).json({ message: 'Some courses were not found' });
-      }
-
       const totalPrice = courses.reduce((totalPrice, course) => totalPrice + course.price, 0);
 
       const order = await Order.create({
