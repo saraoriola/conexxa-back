@@ -9,23 +9,6 @@ const UserController = {
     const { name, lastName, email, password, role, company } = req.body;
     
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-      }
-    
-      if (!name || !lastName || !email || !password || !role || !company) {
-        return res.status(400).json({ message: 'All fields must be filled' });
-      }
-    
-      if (!email.includes('@') || email.split('@').length !== 2) {
-        return res.status(400).json({ message: 'Email must contain an "@" symbol' });
-      }
-    
-      const allowedRoles = ['hr', 'tm', 'ceo', 'executive'];
-      if (!allowedRoles.includes(role)) {
-        return res.status(400).json({ message: 'Invalid role' });
-      }
   
       const existingUser = await User.findOne({ where: { email } });
       if (existingUser) {
